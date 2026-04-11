@@ -17,6 +17,12 @@
   justify-content: space-between;
 }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo img {
+  height: 55px;
+  width: auto;
+  margin: -8px 0;
+  object-fit: contain;
+}
 .logo-txt {
   font-family: 'Syne', sans-serif;
   font-size: 1.2rem;
