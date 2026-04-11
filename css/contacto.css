@@ -1,0 +1,11 @@
+/* contacto.css */
+.contact-form { background: #0a0a0f; border: 1px solid rgba(0,200,255,0.1); border-radius: 14px; padding: 2rem; margin-top: 2rem; max-width: 580px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.form-label { font-size: 12px; color: #8892a4; font-weight: 500; }
+.form-input { background: #000; border: 1px solid rgba(0,200,255,0.18); border-radius: 8px; padding: 10px 14px; color: #e8eaf0; font-size: 14px; font-family: inherit; outline: none; width: 100%; transition: border-color 0.2s; }
+.form-input:focus { border-color: #00c8ff; }
+.form-textarea { background: #000; border: 1px solid rgba(0,200,255,0.18); border-radius: 8px; padding: 10px 14px; color: #e8eaf0; font-size: 14px; font-family: inherit; outline: none; width: 100%; resize: vertical; min-height: 90px; transition: border-color 0.2s; }
+.form-textarea:focus { border-color: #00c8ff; }
+.form-success { display: none; margin-top: 12px; padding: 12px; background: rgba(0,200,100,0.08); border: 1px solid rgba(0,200,100,0.25); border-radius: 8px; color: #4ade80; font-size: 14px; text-align: center; }
+@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }

@@ -1,0 +1,7 @@
+/* faq.css */
+.faq { margin-top: 1.75rem; max-width: 700px; }
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1.1rem 0; cursor: pointer; }
+.faq-q { font-size: 15px; font-weight: 500; color: #e8eaf0; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.faq-icon { color: #00c8ff; font-size: 20px; flex-shrink: 0; transition: transform 0.2s; }
+.faq-a { font-size: 13px; color: #8892a4; line-height: 1.75; margin-top: 10px; display: none; }
+.faq-a.open { display: block; }

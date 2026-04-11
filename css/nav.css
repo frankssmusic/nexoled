@@ -1,0 +1,74 @@
+/* nav.css */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(0,200,255,0.1);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-txt {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00c8ff, #e040fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+.nav-links a { color: #8892a4; text-decoration: none; font-size: 14px; transition: color 0.2s; }
+.nav-links a:hover { color: #00c8ff; }
+.nav-cta {
+  background: linear-gradient(90deg, #00c8ff, #e040fb) !important;
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px !important;
+}
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.menu-btn span { display: block; width: 24px; height: 2px; background: #e8eaf0; border-radius: 2px; transition: all 0.3s; }
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  padding: 1rem 2rem 1.5rem;
+  gap: 1rem;
+  border-top: 1px solid rgba(0,200,255,0.1);
+  background: rgba(0,0,0,0.97);
+}
+.mobile-menu a { color: #8892a4; text-decoration: none; font-size: 15px; }
+.mobile-menu .nav-cta {
+  display: inline-block;
+  text-align: center;
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  margin-top: 0.5rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+.mobile-menu.open { display: flex; }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .menu-btn { display: flex; }
+}

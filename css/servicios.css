@@ -1,0 +1,18 @@
+/* servicios.css */
+.feats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-top: 2.5rem;
+}
+.feat {
+  background: #0a0a0f;
+  border: 1px solid rgba(0,200,255,0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.feat:hover { border-color: rgba(0,200,255,0.3); transform: translateY(-3px); }
+.feat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+.feat-title { font-size: 15px; font-weight: 600; color: #e8eaf0; margin-bottom: 6px; }
+.feat-desc { font-size: 13px; color: #8892a4; line-height: 1.65; }

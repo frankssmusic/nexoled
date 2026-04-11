@@ -1,0 +1,7 @@
+/* segmentos.css */
+.segs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 1.75rem; }
+.seg { background: #0a0a0f; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 1.25rem; text-align: center; transition: border-color 0.2s, transform 0.2s; }
+.seg:hover { border-color: rgba(0,200,255,0.2); transform: translateY(-2px); }
+.sg-icon { width: 42px; height: 42px; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
+.sg-name { font-size: 13px; font-weight: 600; color: #e8eaf0; margin-bottom: 4px; }
+.sg-desc { font-size: 11px; color: #8892a4; line-height: 1.4; }
