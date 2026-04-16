@@ -166,8 +166,6 @@
         <a href="https://wa.me/56990188665?text=Hola%20NexoLED!%20Me%20interesa%20el%20Plan%20Completo%201%20pantalla%20a%20%24180K." target="_blank" class="pc-btn pc-btn-outline">Cotizar plan completo</a>
       </div>
     </div>
-
-    <!-- TABLA 2 PANTALLAS -->
     <div class="quote-banner" style="margin-top:2rem;">
       <div>
         <h3>&#128250; Con 2 pantallas ahorras mas</h3>
@@ -176,7 +174,6 @@
       </div>
       <a href="https://wa.me/56990188665?text=Hola%20NexoLED!%20Quiero%20cotizar%20con%202%20pantallas%20LED." target="_blank" class="btn-primary">Cotizar 2 pantallas</a>
     </div>
-
     <div class="quote-banner">
       <div>
         <h3>Tienes un evento o local en mente?</h3>
@@ -248,11 +245,11 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">El despacho tiene costo adicional? <span class="faq-icon">+</span></div>
-        <div class="faq-a">El Plan Basico no incluye despacho ni instalacion — el cliente retira el equipo. El Plan Estandar y Plan Completo incluyen despacho e instalacion en el precio.</div>
+        <div class="faq-a">El Plan Basico no incluye despacho ni instalacion. El Plan Estandar y Plan Completo lo incluyen en el precio.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Que tipo de contenido puedo mostrar? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Imagenes, videos, texto animado, promociones, menus, fotos del evento en vivo. El Plan Completo incluye diseno desde cero o animacion fija.</div>
+        <div class="faq-a">Imagenes, videos, texto animado, promociones, menus. El Plan Completo incluye diseno desde cero o animacion fija.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Tienen disponibilidad para feriados y fines de semana? <span class="faq-icon">+</span></div>
@@ -420,16 +417,11 @@
 .support-window.open { display: flex; }
 .support-window iframe { width: 100%; height: 100%; border: none; }
 
-/* MÓVIL — pantalla completa */
 @media (max-width: 768px) {
   .support-window {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
     border-radius: 0;
     border: none;
     z-index: 99999;
@@ -442,7 +434,7 @@
 }
 </style>
 
-<button class="support-btn" onclick="toggleSupport()" aria-label="Abrir soporte tecnico">
+<button class="support-btn" id="supportBtn" onclick="toggleSupport()" aria-label="Abrir soporte tecnico">
   <span class="support-tooltip">Soporte técnico IA</span>
   <span class="support-btn-inner">
     <span class="support-n">N</span>
@@ -457,16 +449,20 @@
 <script>
 function toggleSupport() {
   const win = document.getElementById('supportWindow');
+  const btn = document.getElementById('supportBtn');
   win.classList.toggle('open');
   if (win.classList.contains('open')) {
     document.body.style.overflow = 'hidden';
+    if (window.innerWidth <= 768) btn.style.display = 'none';
   } else {
     document.body.style.overflow = '';
+    btn.style.display = 'flex';
   }
 }
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.getElementById('supportWindow').classList.remove('open');
+    document.getElementById('supportBtn').style.display = 'flex';
     document.body.style.overflow = '';
   }
 });
