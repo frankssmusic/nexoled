@@ -321,5 +321,122 @@
   });
 </script>
 
+<!-- ========== BOTÓN FLOTANTE SOPORTE IA ========== -->
+<style>
+.support-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #00e5ff, #e040fb);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(0,229,255,0.35);
+  z-index: 9999;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.support-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 32px rgba(0,229,255,0.5);
+}
+.support-btn-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.support-n {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0a0a0f;
+  line-height: 1;
+}
+.support-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  color: #0a0a0f;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+.support-tooltip {
+  position: absolute;
+  right: 74px;
+  background: #111118;
+  color: #f0f0f8;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  border: 1px solid rgba(255,255,255,0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.support-btn:hover .support-tooltip { opacity: 1; }
+
+.support-window {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: 380px;
+  height: 560px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+  z-index: 9998;
+  display: none;
+  flex-direction: column;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.support-window.open { display: flex; }
+.support-window iframe { width: 100%; height: 100%; border: none; }
+
+@media (max-width: 480px) {
+  .support-window {
+    width: calc(100vw - 16px);
+    height: 70dvh;
+    right: 8px;
+    bottom: 90px;
+    border-radius: 14px;
+  }
+  .support-btn { bottom: 16px; right: 16px; }
+}
+</style>
+
+<button class="support-btn" onclick="toggleSupport()" aria-label="Abrir soporte tecnico">
+  <span class="support-tooltip">Soporte técnico IA</span>
+  <span class="support-btn-inner">
+    <span class="support-n">N</span>
+    <span class="support-label">Soporte</span>
+  </span>
+</button>
+
+<div class="support-window" id="supportWindow">
+  <iframe src="soporte-chat.html" title="Soporte tecnico NexoLED" loading="lazy"></iframe>
+</div>
+
+<script>
+function toggleSupport() {
+  document.getElementById('supportWindow').classList.toggle('open');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('supportWindow').classList.remove('open');
+});
+</script>
+<!-- ========== FIN BOTÓN FLOTANTE ========== -->
+
 </body>
 </html>
