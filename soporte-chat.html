@@ -107,6 +107,9 @@ body {
 .bubble li { margin-bottom: 5px; line-height: 1.55; }
 .bubble code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.15); padding: 1px 6px; border-radius: 4px; color: var(--cyan); }
 .bubble hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+.bubble h1 { font-size: 16px; font-weight: 600; color: var(--text); margin: 0.75rem 0 0.4rem; line-height: 1.3; }
+.bubble h2 { font-size: 14px; font-weight: 600; color: var(--cyan); margin: 0.75rem 0 0.4rem; line-height: 1.3; }
+.bubble h3 { font-size: 13px; font-weight: 600; color: var(--muted); margin: 0.5rem 0 0.3rem; line-height: 1.3; }
 
 .typing-dots { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
 .typing-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); opacity: 0.4; animation: blink 1.2s ease-in-out infinite; }
@@ -255,15 +258,30 @@ function escHtml(t) {
 
 function mdToHtml(text) {
   let t = escHtml(text);
+  // Headings — procesar antes que bold para evitar conflictos
+  t = t.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  t = t.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  t = t.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // Bold y italic
   t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Inline code
   t = t.replace(/`(.+?)`/g, '<code>$1</code>');
+  // Listas numeradas
   t = t.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
   t = t.replace(/(<li>.*<\/li>\n?)+/g, '<ol>$&</ol>');
-  t = t.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+  // Listas con viñetas
+  t = t.replace(/^[-•*]\s+(.+)$/gm, '<li>$1</li>');
   t = t.replace(/(<li>.*<\/li>\n?)+/g, m => m.includes('<ol>') ? m : '<ul>' + m + '</ul>');
+  // HR
   t = t.replace(/^---$/gm, '<hr>');
-  t = t.split('\n\n').map(p => p.trim() ? `<p>${p.replace(/\n/g,'<br>')}</p>` : '').join('');
+  // Párrafos — no envolver líneas que ya son tags HTML
+  t = t.split('\n\n').map(p => {
+    p = p.trim();
+    if (!p) return '';
+    if (p.startsWith('<h') || p.startsWith('<ol') || p.startsWith('<ul') || p.startsWith('<hr')) return p;
+    return `<p>${p.replace(/\n/g,'<br>')}</p>`;
+  }).join('');
   return t;
 }
 
