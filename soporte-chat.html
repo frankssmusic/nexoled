@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soporte IA · NexoLED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan: #00e5ff;
+  --magenta: #e040fb;
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #1a1a24;
+  --border: rgba(255,255,255,0.08);
+  --text: #f0f0f8;
+  --muted: #7a7a99;
+  --user-bubble: #1a1a2e;
+  --ai-bubble: #111118;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,15,0.98);
+  flex-shrink: 0;
+  backdrop-filter: blur(12px);
+}
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 600; color: #0a0a0f;
+}
+.logo-text { font-size: 15px; font-weight: 600; }
+.logo-text span {
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.status-dot {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--muted);
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #39e58c;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+.back-link {
+  font-size: 11px; color: var(--muted); text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--cyan); }
+
+/* CHAT AREA */
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  scroll-behavior: smooth;
+}
+.chat-area::-webkit-scrollbar { width: 4px; }
+.chat-area::-webkit-scrollbar-track { background: transparent; }
+.chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* MENSAJES */
+.msg {
+  display: flex;
+  gap: 10px;
+  max-width: 720px;
+  width: 100%;
+  animation: msgIn 0.25s ease;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.msg.user { flex-direction: row-reverse; margin-left: auto; }
+.msg.ai   { margin-right: auto; }
+
+.avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; flex-shrink: 0; margin-top: 2px;
+}
+.msg.ai .avatar {
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  color: #0a0a0f;
+  font-family: 'JetBrains Mono', monospace;
+}
+.msg.user .avatar {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.bubble {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: calc(100% - 44px);
+}
+.msg.user .bubble {
+  background: var(--user-bubble);
+  border: 1px solid rgba(0,229,255,0.15);
+  border-top-right-radius: 4px;
+  color: var(--text);
+}
+.msg.ai .bubble {
+  background: var(--ai-bubble);
+  border: 1px solid var(--border);
+  border-top-left-radius: 4px;
+  color: var(--text);
+}
+
+/* Markdown básico dentro del bubble */
+.bubble p { margin-bottom: 0.6rem; }
+.bubble p:last-child { margin-bottom: 0; }
+.bubble strong { font-weight: 600; color: var(--cyan); }
+.bubble em { color: var(--muted); font-style: normal; font-size: 13px; }
+.bubble ol, .bubble ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+.bubble li { margin-bottom: 5px; line-height: 1.55; }
+.bubble code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: rgba(0,229,255,0.08);
+  border: 1px solid rgba(0,229,255,0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--cyan);
+}
+.bubble hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+
+/* TYPING INDICATOR */
+.typing-dots {
+  display: flex; gap: 4px; align-items: center; padding: 4px 0;
+}
+.typing-dots span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan); opacity: 0.4;
+  animation: blink 1.2s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+
+/* SUGERENCIAS */
+.suggestions {
+  padding: 0 1rem 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 720px;
+  flex-shrink: 0;
+}
+.sug-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg2);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.sug-btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(0,229,255,0.06);
+}
+
+/* INPUT AREA */
+.input-area {
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid var(--border);
+  background: rgba(10,10,15,0.98);
+  flex-shrink: 0;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+textarea {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--text);
+  resize: none;
+  outline: none;
+  height: 46px;
+  max-height: 120px;
+  overflow-y: auto;
+  line-height: 1.5;
+  transition: border-color 0.2s;
+}
+textarea::placeholder { color: var(--muted); }
+textarea:focus { border-color: rgba(0,229,255,0.4); }
+
+.send-btn {
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, var(--cyan), #00b4d8);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.send-btn:hover { opacity: 0.85; }
+.send-btn:active { transform: scale(0.95); }
+.send-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.send-btn svg { width: 18px; height: 18px; fill: #0a0a0f; }
+
+.footer-note {
+  text-align: center;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--muted);
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+/* WELCOME */
+.welcome {
+  max-width: 520px;
+  margin: 1rem auto;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+.welcome-icon {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(224,64,251,0.15));
+  border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 24px;
+}
+.welcome h2 { font-size: 18px; font-weight: 600; margin-bottom: 0.5rem; }
+.welcome p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+@media (max-width: 480px) {
+  .back-link { display: none; }
+  .status-dot span { display: none; }
+  .bubble { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-row">
+    <div class="logo-icon">NX</div>
+    <div class="logo-text"><span>NexoLED</span></div>
+  </div>
+  <div class="status-dot">
+    <div class="dot"></div>
+    <span>Asistente IA activo</span>
+  </div>
+  <a href="index.html" class="back-link">← volver al sitio</a>
+</div>
+
+<div class="chat-area" id="chat">
+  <div class="welcome" id="welcome">
+    <div class="welcome-icon">🖥️</div>
+    <h2>Soporte técnico NexoLED</h2>
+    <p>Soy el asistente de soporte para tus pantallas LED <strong style="color:var(--cyan)">Novastar TB1-4G</strong>. Descríbeme el problema que tienes y te ayudo a resolverlo paso a paso.</p>
+  </div>
+</div>
+
+<div class="suggestions" id="sugs">
+  <button class="sug-btn" onclick="sendSug(this)">App no conecta tras firmware</button>
+  <button class="sug-btn" onclick="sendSug(this)">Pantalla en negro</button>
+  <button class="sug-btn" onclick="sendSug(this)">No encuentro la red Wi-Fi</button>
+  <button class="sug-btn" onclick="sendSug(this)">Contraseña incorrecta</button>
+  <button class="sug-btn" onclick="sendSug(this)">Video se ve lento</button>
+  <button class="sug-btn" onclick="sendSug(this)">Reset de fábrica</button>
+</div>
+
+<div class="input-area">
+  <div class="input-row">
+    <textarea id="inp" placeholder="Describe tu problema aquí..." rows="1"></textarea>
+    <button class="send-btn" id="sendBtn" onclick="send()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <div class="footer-note">NexoLED · Soporte Novastar TB1-4G · Punta Arenas</div>
+</div>
+
+<script>
+const SYSTEM = `Eres el asistente de soporte técnico de NexoLED, empresa de arriendo de pantallas LED en Punta Arenas, Chile. Ayudas a clientes y al equipo técnico con problemas de las pantallas LED Novastar serie Taurus, especialmente el modelo TB1-4G (también llamado "pendón LED").
+
+CONOCIMIENTO TÉCNICO COMPLETO:
+
+DISPOSITIVO: Novastar Taurus TB1-4G
+- Multimedia player Android para pantallas LED asíncronas
+- Procesador quad-core 1.2GHz, 1GB RAM, almacenamiento 8–32GB
+- Conectividad: Wi-Fi AP/STA, Ethernet RJ45, opcional 4G (módulo EG25 separado)
+- Software: ViPlex Handy (iOS/Android), ViPlex Express (Windows), NovaLCT (Windows), VNNOX (cloud)
+
+CREDENCIALES PREDETERMINADAS:
+- Firmware ANTIGUO (antes de V4.6.0): Wi-Fi SSID = "AP + últimos 8 dígitos del SN", contraseña Wi-Fi = "12345678", contraseña admin = "123456"
+- Firmware NUEVO (V4.6.0+): contraseña Wi-Fi impresa en la etiqueta física del dispositivo, contraseña admin = "123456"
+- IMPORTANTE: hay DOS contraseñas distintas — la del Wi-Fi (para conectar el celular) y la admin (para entrar a la app)
+
+PROBLEMA MÁS FRECUENTE — App ViPlex no conecta tras actualizar firmware:
+1. El firmware nuevo cambió las credenciales del Wi-Fi AP
+2. Solución: ir a Ajustes del celular → Wi-Fi → conectar a la red "AP+últimos 8 dígitos del SN"
+3. Usar contraseña de la etiqueta física (firmware nuevo) o "12345678" (firmware antiguo)
+4. Abrir ViPlex Handy → refrescar lista → conectar con admin "123456"
+5. Si sigue fallando: tocar el dispositivo en la app → "Olvidar contraseña" → reintentar
+6. Último recurso: reset de fábrica
+
+RESET DE FÁBRICA:
+- Botón RST en el dispositivo físico, presionar 5–10 segundos con clip (dispositivo encendido)
+- Tras reset: SSID = "AP+últimos 8 dígitos SN", Wi-Fi = "12345678", admin = "123456"
+- Borra todo el contenido — irreversible
+
+PANTALLA NEGRA / SIN IMAGEN:
+- Verificar LED PWR encendido en verde
+- Confirmar que existe una solución (contenido) publicada y activa en ViPlex Handy
+- Verificar que la resolución configurada coincida con los módulos LED
+- Revisar cables planos (ribbon) entre módulos si solo algunos están negros
+
+RED WI-FI NO APARECE EN EL CELULAR:
+- Acercarse a menos de 5 metros del dispositivo
+- SSID en etiqueta física del dispositivo
+- Si fue cambiado a modo Wi-Fi Sta, no emite AP propio — requiere reconexión por Ethernet con NovaLCT en PC
+
+CONTENIDO NO SE ACTUALIZA:
+- Celular debe estar conectado al Wi-Fi del TB1-4G al publicar
+- Formatos: JPG, PNG, BMP, MP4, AVI, MP3
+- Verificar espacio libre en memoria del dispositivo
+
+COLORES INCORRECTOS / DISTORSIÓN:
+- Requiere NovaLCT por Ethernet en PC Windows
+- Verificar archivo RCFG compatible con los módulos LED
+- Revisar cables ribbon entre módulos
+
+VIDEO LENTO O CORTADO:
+- Usar MP4 con códec H.264, máximo 1920×1080, bitrate ≤ 20 Mbps
+- Convertir con HandBrake (gratuito, handbrake.fr)
+- Para pendones 2m×80cm la resolución real suele ser 192×64 a 320×80 píxeles
+
+VERIFICAR VERSIÓN FIRMWARE:
+- ViPlex Handy → dispositivo → "Acerca del dispositivo"
+- Versiones antes de V4.6.0 = firmware antiguo; V4.6.0+ = firmware nuevo
+
+VERSIÓN MÍNIMA DE FIRMWARE PARA VIPLEX HANDY: V3.7.0
+COMPATIBILIDAD: El TB1-4G ES compatible con todas las versiones actuales de ViPlex Handy. NO es verdad que sea incompatible por ser "antiguo".
+
+EMPRESA NEXOLED:
+- Arriendo de pantallas LED en Punta Arenas, Chile
+- 2 pantallas LED tipo pendón: 2m × 80cm cada una, tecnología Taurus/Novastar
+- WhatsApp: +56990188665
+- Slogan: "Lo que importa, merece brillar."
+- Precios: $130.000 CLP/día (una pantalla) | $250.000 CLP/día (ambas)
+
+INSTRUCCIONES DE COMPORTAMIENTO:
+- Responde SIEMPRE en español
+- Sé directo y técnicamente preciso
+- Da pasos numerados cuando sea un procedimiento
+- Si el problema puede ser grave (riesgo de perder datos), adviértelo claramente
+- Si no estás seguro de algo, dilo honestamente
+- Menciona el contacto de WhatsApp si el problema parece requerir soporte humano presencial
+- Mantén respuestas concisas — máximo 300 palabras salvo que el problema sea muy complejo
+- Usa **negritas** para términos clave
+- No uses emojis en exceso, máximo 1 por respuesta si corresponde`;
+
+let history = [];
+let busy = false;
+
+const chatEl = document.getElementById('chat');
+const inp = document.getElementById('inp');
+const sendBtn = document.getElementById('sendBtn');
+const sugsEl = document.getElementById('sugs');
+
+inp.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+inp.addEventListener('input', () => {
+  inp.style.height = 'auto';
+  inp.style.height = Math.min(inp.scrollHeight, 120) + 'px';
+});
+
+function sendSug(btn) {
+  inp.value = btn.textContent;
+  send();
+}
+
+function addMsg(role, text) {
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.remove();
+  sugsEl.style.display = 'none';
+
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const avatarLabel = role === 'ai' ? 'NX' : '👤';
+  div.innerHTML = `
+    <div class="avatar">${avatarLabel}</div>
+    <div class="bubble">${role === 'ai' ? mdToHtml(text) : escHtml(text)}</div>
+  `;
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+  return div;
+}
+
+function addTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.id = 'typing';
+  div.innerHTML = `<div class="avatar">NX</div><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function removeTyping() {
+  document.getElementById('typing')?.remove();
+}
+
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function mdToHtml(text) {
+  let t = escHtml(text);
+  // bold
+  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // italic / muted
+  t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // inline code
+  t = t.replace(/`(.+?)`/g, '<code>$1</code>');
+  // numbered list
+  t = t.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+  t = t.replace(/(<li>.*<\/li>\n?)+/g, '<ol>$&</ol>');
+  // bullet list
+  t = t.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+  t = t.replace(/(<li>.*<\/li>\n?)+/g, m => m.includes('<ol>') ? m : '<ul>' + m + '</ul>');
+  // hr
+  t = t.replace(/^---$/gm, '<hr>');
+  // paragraphs
+  t = t.split('\n\n').map(p => p.trim() ? `<p>${p.replace(/\n/g,'<br>')}</p>` : '').join('');
+  return t;
+}
+
+async function send() {
+  const text = inp.value.trim();
+  if (!text || busy) return;
+
+  busy = true;
+  sendBtn.disabled = true;
+  inp.value = '';
+  inp.style.height = '46px';
+
+  addMsg('user', text);
+  history.push({ role: 'user', content: text });
+
+  addTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: history
+      })
+    });
+
+    const data = await res.json();
+    removeTyping();
+
+    if (data.error) {
+      addMsg('ai', `Hubo un error al conectar con el asistente. Por favor escríbenos al **WhatsApp +56990188665** y te ayudamos directamente.`);
+    } else {
+      const reply = data.content.find(b => b.type === 'text')?.text || 'Lo siento, no pude generar una respuesta.';
+      history.push({ role: 'assistant', content: reply });
+      addMsg('ai', reply);
+    }
+  } catch (err) {
+    removeTyping();
+    addMsg('ai', `Error de conexión. Verifica tu internet o contáctanos al **WhatsApp +56990188665**`);
+  }
+
+  busy = false;
+  sendBtn.disabled = false;
+  inp.focus();
+}
+</script>
+</body>
+</html>
