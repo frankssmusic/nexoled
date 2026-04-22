@@ -2,9 +2,9 @@
 .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 2.5rem; }
 .step { padding: 0 2rem 1rem; border-left: 1px solid rgba(0,200,255,0.12); }
 .step:first-child { padding-left: 0; border-left: none; }
-.step-n { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: rgba(0,200,255,0.1); line-height: 1; margin-bottom: 6px; }
-.step-title { font-size: 15px; font-weight: 600; color: #e8eaf0; margin-bottom: 6px; }
-.step-desc { font-size: 13px; color: #8892a4; line-height: 1.65; }
+.step-n { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: rgba(0,200,255,0.1); line-height: 1; margin-bottom: 6px; }
+.step-title { font-size: 18px; font-weight: 600; color: #e8eaf0; margin-bottom: 6px; }
+.step-desc { font-size: 16px; color: #8892a4; line-height: 1.65; }
 @media (max-width: 768px) {
   .steps { gap: 1.5rem; }
   .step { border-left: none; padding-left: 0; border-top: 1px solid rgba(0,200,255,0.1); padding-top: 1.5rem; }

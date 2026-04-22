@@ -25,25 +25,25 @@
   display: inline-block;
   background: linear-gradient(90deg, #00c8ff, #e040fb);
   color: #0a0a0f;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 20px;
   margin-bottom: 0.75rem;
 }
-.pc-name { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #8892a4; text-transform: uppercase; margin-bottom: 0.5rem; }
-.pc-price { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 700; color: #fff; line-height: 1; }
-.pc-price-alt { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1.2; }
-.pc-unit { font-size: 12px; color: #8892a4; margin: 6px 0 1.5rem; }
-.pc-feats { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
-.pc-feats li { font-size: 13px; color: #a0aec0; display: flex; align-items: flex-start; gap: 8px; }
+.pc-name { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #8892a4; text-transform: uppercase; margin-bottom: 0.5rem; }
+.pc-price { font-family: 'Syne', sans-serif; font-size: 3.36rem; font-weight: 700; color: #fff; line-height: 1; }
+.pc-price-alt { font-family: 'Syne', sans-serif; font-size: 2.16rem; font-weight: 700; color: #fff; line-height: 1.2; }
+.pc-unit { font-size: 14px; color: #8892a4; margin: 6px 0 1.5rem; }
+.pc-feats { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+.pc-feats li { font-size: 16px; color: #a0aec0; display: flex; align-items: flex-start; gap: 8px; }
 .ck { color: #00c8ff; flex-shrink: 0; }
 .ck-m { color: #e040fb; flex-shrink: 0; }
 .x { color: #444; flex-shrink: 0; }
 .grad { background: linear-gradient(90deg, #00c8ff, #e040fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.pc-btn { display: block; text-align: center; padding: 11px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.2s; }
+.pc-btn { display: block; text-align: center; padding: 13px; border-radius: 8px; font-size: 17px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.2s; }
 .pc-btn:hover { opacity: 0.85; }
 .pc-btn-outline { background: transparent; color: #00c8ff; border: 1px solid rgba(0,200,255,0.4) !important; }
 .pc-btn-fill { background: linear-gradient(90deg, #00c8ff, #e040fb); color: #000; }
@@ -60,6 +60,6 @@
   gap: 1.5rem;
   flex-wrap: wrap;
 }
-.quote-banner h3 { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
-.quote-banner p { font-size: 13px; color: #8892a4; }
+.quote-banner h3 { font-size: 1.2rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.quote-banner p { font-size: 16px; color: #8892a4; }
 @media (max-width: 768px) { .quote-banner { flex-direction: column; text-align: center; } }
