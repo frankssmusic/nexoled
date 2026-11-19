@@ -235,3 +235,65 @@ h2{font-size:clamp(1.9rem,3.6vw,2.9rem); line-height:1.1; margin-bottom:1rem; ma
   .revelar,.revelar-scroll{opacity:1}
   html{scroll-behavior:auto}
 }
+
+/* ===== Rediseño nov 2026: menos texto, más fotos ===== */
+.galeria{display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin:0}
+.galeria figure{margin:0}
+.galeria img{width:100%; aspect-ratio:3/4.4; object-fit:cover; border-radius:16px; display:block; box-shadow:0 0 0 1px var(--linea), 0 30px 50px -25px rgba(0,0,0,.9)}
+.galeria figcaption{color:var(--suave); font-size:.92rem; margin-top:.7rem; line-height:1.4}
+.chips{list-style:none; padding:0; margin:2.2rem 0 0; display:flex; flex-wrap:wrap; gap:.6rem}
+.chips li{border:1px solid var(--linea); border-radius:999px; padding:.45rem 1rem; color:var(--suave); font-size:.95rem}
+.precios-bloque{display:grid; grid-template-columns:1.1fr 1fr; gap:2.5rem; align-items:center; max-width:980px}
+.precios-opciones{display:grid; grid-template-columns:1fr 1fr; gap:1rem}
+.opcion{position:relative; display:flex; flex-direction:column; text-decoration:none; color:var(--texto); background:var(--panel); border:1px solid var(--linea); border-radius:22px; padding:1.6rem 1.5rem; transition:border-color .2s}
+.opcion:hover{border-color:var(--turquesa)}
+.opcion-destacada{background:linear-gradient(180deg,var(--panel2),var(--panel)); border-color:rgba(34,184,255,.45); box-shadow:0 0 60px -20px rgba(34,184,255,.45)}
+.opcion-n{font-size:1.05rem; color:var(--suave)}
+.opcion-p{font-family:"Tilt Neon","Outfit",sans-serif; font-size:2.4rem; line-height:1.15; margin-top:.3rem}
+.opcion-iva{color:var(--suave); font-size:.9rem}
+.opcion-cta{margin-top:1.2rem; font-weight:600; color:var(--turquesa)}
+.incluye{list-style:none; margin:0; padding:0; display:grid; gap:.9rem}
+.incluye li{display:flex; gap:.6rem; align-items:flex-start}
+.selfia-fotos-3{grid-template-columns:repeat(3,1fr)}
+@media (min-width:561px){.seccion{padding:4.5rem 1.5rem}}
+@media (max-width:900px){
+  .galeria{grid-template-columns:1fr 1fr}
+  .precios-bloque{grid-template-columns:1fr}
+}
+@media (max-width:420px){
+  .precios-opciones{grid-template-columns:1fr 1fr; gap:.7rem}
+  .opcion{padding:1.2rem 1rem}
+  .opcion-p{font-size:1.9rem}
+}
+
+/* Fondo del encabezado: macro de diodos LED que se encienden al azar */
+.hero-fondo{position:relative; overflow:hidden}
+.hero-fondo .hero{z-index:1}
+.hero-leds{position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:.8;
+  -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.3) 45%,#000 80%), linear-gradient(180deg,#000 70%,transparent);
+  -webkit-mask-composite:source-in; mask-image:linear-gradient(90deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.3) 45%,#000 80%), linear-gradient(180deg,#000 70%,transparent); mask-composite:intersect}
+@media (max-width:900px){
+  .hero-leds{-webkit-mask-image:linear-gradient(180deg,#000 30%,rgba(0,0,0,.12) 52%,transparent 70%); mask-image:linear-gradient(180deg,#000 30%,rgba(0,0,0,.12) 52%,transparent 70%)}
+}
+
+/* Escena de publicidad (marcas de ejemplo) */
+.pantalla{container-type:inline-size}
+.capa-marca{flex-direction:column; justify-content:center; text-align:center; padding:8cqw; gap:2cqw; overflow:hidden}
+.capa-marca p{margin:0; line-height:1.05}
+.ad-logo{font-family:"Outfit",sans-serif; font-weight:700; letter-spacing:.18em; font-size:6.4cqw}
+.ad-titulo{font-family:"Tilt Neon","Outfit",sans-serif; font-size:13cqw; text-wrap:balance}
+.ad-cafe{background:radial-gradient(90% 60% at 50% 40%,#6B3A22,#2A140B 70%,#160A05); color:#F6E7D3}
+.ad-cafe .ad-logo{color:#E9B97A; margin-bottom:6cqw}
+.ad-taza{width:72%; filter:drop-shadow(0 0 12px rgba(233,185,122,.35))}
+.ad-taza .vapor{animation:vapor 3s ease-in-out infinite}
+@keyframes vapor{0%,100%{transform:translateY(0); opacity:.4}50%{transform:translateY(-4px); opacity:.8}}
+.ad-sello{display:inline-block; align-self:center; margin-top:4cqw !important; background:#E9B97A; color:#2A140B; font-weight:700; font-size:5.6cqw; padding:1.4cqw 4cqw; border-radius:99px}
+.ad-cafe .ad-titulo{font-size:12.5cqw; color:#fff}
+.ad-precio{font-family:"Outfit",sans-serif; font-weight:700; font-size:14cqw; color:#E9B97A}
+.ad-cumbre{background:linear-gradient(180deg,#071A33 0%,#0B2A4D 55%,#0F3B66 100%); color:#E9F4FF; justify-content:flex-start; padding-top:20cqw}
+.ad-emblema{width:46%; margin:10cqw auto 0; position:relative; filter:drop-shadow(0 0 10px rgba(95,227,200,.35))}
+.ad-montes{position:absolute; left:0; right:0; bottom:0; width:100%; height:30%}
+.ad-cumbre .ad-logo{color:#5FE3C8}
+.ad-bienvenidos{font-family:"Outfit",sans-serif; font-weight:300; font-size:9cqw; margin-top:8cqw !important; color:#BFD8F2; position:relative}
+.ad-cumbre .ad-titulo{font-size:12cqw; color:#fff; position:relative}
+.ad-meta{font-size:5.4cqw; color:#8FB4DA; margin-top:3cqw !important; position:relative}
